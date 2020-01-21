@@ -19,13 +19,16 @@ l = tk.Label(window, textvariable = var, bg = 'green', font = ('Arial', 12), wid
 def on_press(key):
     global is_start, l
     # 开启
-    if key == Key.f7:
+    if key == Key.f6:
         is_start = True
         l.configure(bg = 'green')
         var.set('nmsl开启')
     # 轰炸
-    if key == Key.f8 and is_start == True:
+    if key == Key.f7 and is_start == True:
         boom()
+    # 轰炸英文
+    if key == Key.f8 and is_start == True:
+        boom2()
     # 暂停
     if key == Key.f9:
         is_start = False
@@ -56,13 +59,26 @@ def send():
     keyboard.press(Key.enter)
     keyboard.release(Key.enter)
 
+content = read_file("./nmsl.txt")
+content2 = read_file("nmslEnglish.txt")
+
 # 开始轰炸
 def boom():
     #time.sleep(7)
-    content = read_file("./nmsl.txt")
     # print(content[0])
+    global content
     for i in range(1):
         keyboard_input(content[random.randint(0, len(content) - 1)])
+        # send()
+        time.sleep(0.5)
+
+# 开始轰炸英文
+def boom2():
+    #time.sleep(7)
+    # print(content[0])
+    global content2
+    for i in range(1):
+        keyboard_input(content2[random.randint(0, len(content2) - 1)])
         # send()
         time.sleep(0.5)
 
@@ -81,7 +97,7 @@ def main():
     window.title('nmsl')
     window.geometry('300x100')
     l.pack()
-    l2 = tk.Label(window, text = 'F7开启，F8开炮，F9暂停，F10关闭', bg = 'blue', font = ('Arial', 10), width = 35, height = 2)
+    l2 = tk.Label(window, text = 'F6开启,F7中文,F8英文,F9暂停,F10关闭', bg = 'blue', font = ('Arial', 10), width = 40, height = 2)
     l2.pack()
     t1 = threading.Thread(target=threading_start)
     t1.start()
